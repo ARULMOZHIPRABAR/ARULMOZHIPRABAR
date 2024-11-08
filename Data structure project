@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_PERSONS 100
+#define MAX_NAME_LENGTH 50
+
+// Enumeration for gender
+typedef enum {
+    MALE,
+    FEMALE
+} Gender;
+
+// Structure to represent a person
+typedef struct {
+    char name[MAX_NAME_LENGTH];
+    int age;
+    Gender gender;
+    char relationship[MAX_NAME_LENGTH];
+} Person;
+
+// Function to print a person's details
+void printPerson(Person person) {
+    printf("Name: %s\n", person.name);
+    printf("Age: %d\n", person.age);
+    printf("Gender: %s\n", person.gender == MALE ? "Male" : "Female");
+    printf("Relationship: %s\n", person.relationship);
+}
+
+int main() {
+    Person family[MAX_PERSONS];
+    int numPersons = 0;
+
+    printf("Welcome to the Family Tree Generator\n");
+
+    // Input loop
+    while (1) {
+        printf("Enter name of person (or 'done' to finish): ");
+        char name[MAX_NAME_LENGTH];
+        scanf("%s", name);
+
+        if (strcmp(name, "done") == 0) {
+            break;
+        }
+
+        // Check if max persons reached
+        if (numPersons >= MAX_PERSONS) {
+            printf("Maximum number of persons reached.\n");
+            break;
+        }
+
+        // Store the name of the person
+        strcpy(family[numPersons].name, name);
+
+        printf("Enter age of person: ");
+        scanf("%d", &family[numPersons].age);
+
+        printf("Enter gender of person (0 for Male, 1 for Female): ");
+        int genderInput;
+        scanf("%d", &genderInput);
+        family[numPersons].gender = (genderInput == 0) ? MALE : FEMALE;
+
+        printf("Enter relationship of person (e.g., parent, child, spouse): ");
+        scanf("%s", family[numPersons].relationship);
+
+        numPersons++;
+    }
+
+    // Print the family tree
+    printf("\nFamily Tree:\n");
+    for (int i = 0; i < numPersons; i++) {
+        printf("\nPerson %d:\n", i+1);
+        printPerson(family[i]);
+    }
+
+    return 0;
+}
